@@ -1,0 +1,9 @@
+discord.py
+httpx
+jishaku
+python-dateutil
+aiofiles
+aiosqlite
+python-dotenv
+requests
+setuptools==69.5.1

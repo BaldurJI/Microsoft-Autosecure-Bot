@@ -1,0 +1,15 @@
+{
+    "tokens": {
+        "bot_token": "PASTE_YOUR_BOT_TOKEN_HERE"
+    },
+    "owners": [
+        123456789012345678
+    ],
+    "discord": {
+        "accounts_channel": 0,
+        "log_channel": 0
+    },
+    "autosecure": {
+        "replace_main_alias": true
+    }
+}

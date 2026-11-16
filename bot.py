@@ -1712,7 +1712,10 @@ class DiscordBot(commands.Bot):
             allowed_mentions=discord.AllowedMentions(roles=False, everyone=False, users=True)
         )
         self.logger = logging.getLogger("bot")
-        self.admins = config["owners"]
+         owners = config["owners"]
+        if isinstance(owners, int):
+            owners = [owners]
+        self.admins = list(owners)
 
     async def setup_hook(self) -> None:
         # Register commands directly
